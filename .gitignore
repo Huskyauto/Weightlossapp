@@ -1,0 +1,6 @@
+weightlossapp/node_modules/
+weightlossapp/dist/
+weightlossapp/.turbo/
+.DS_Store
+*.log
+
