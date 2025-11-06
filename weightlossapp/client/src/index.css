@@ -171,3 +171,33 @@
     }
   }
 }
+
+/* SURGICAL APPROACH: Hide only the Manus badge without affecting the app */
+
+/* Target Manus-specific elements */
+iframe[src*="manus.im"],
+iframe[src*="badge"],
+button[aria-label*="Made with Manus"],
+[aria-label*="Made with Manus"],
+a[href*="manus.im"][aria-label*="Made"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Target small fixed elements at bottom-right (typical badge size/position) */
+/* This catches badges that don't have identifying attributes */
+@media (max-width: 1024px) {
+  /* Any fixed element at bottom-right that's NOT our navigation */
+  body > *:not(#root) {
+    display: none !important;
+  }
+  
+  /* Ensure our app root is always visible */
+  #root {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+

@@ -34,10 +34,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white">
-      {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="px-4 py-3">
-          <h1 className="text-xl font-bold text-green-600">Weight Loss Companion</h1>
+      {/* Mobile Header with Navigation */}
+      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-4 py-3 flex items-center justify-between">
+          <h1 className="text-xl font-bold text-green-600">Weight Loss Companion v2</h1>
+          {/* Mobile Navigation Tabs - Horizontal Scroll */}
+        </div>
+        <div className="overflow-x-auto scrollbar-hide">
+          <nav className="flex px-2 pb-2 gap-1">
+            {navigation.slice(0, 5).map((item) => {
+              const isActive = location === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors rounded-lg whitespace-nowrap',
+                    isActive ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'
+                  )}
+                >
+                  <item.icon className="h-5 w-5 mb-1" />
+                  <span className="truncate">{item.name.split(' ')[0]}</span>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
@@ -85,34 +106,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 lg:pl-64 pb-20 lg:pb-0">
+        <main className="flex-1 lg:pl-64 pb-6 lg:pb-0">
           <div className="py-6 px-4 sm:px-6 lg:px-8">
             {children}
           </div>
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 shadow-lg z-40">
-        <nav className="flex justify-around">
-          {navigation.slice(0, 5).map((item) => {
-            const isActive = location === item.href;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors',
-                  isActive ? 'text-green-600' : 'text-gray-600'
-                )}
-              >
-                <item.icon className="h-6 w-6 mb-1" />
-                <span className="truncate">{item.name.split(' ')[0]}</span>
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+      {/* Bottom navigation removed - now in top header */}
     </div>
   );
 }
