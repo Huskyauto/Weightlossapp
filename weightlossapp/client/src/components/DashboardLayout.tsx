@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Mobile Header with Navigation */}
       <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="px-4 py-3 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-green-600">Weight Loss Companion v2</h1>
+          <h1 className="text-xl font-bold text-green-600">Weight Loss Companion</h1>
           {/* Mobile Navigation Tabs - Horizontal Scroll */}
         </div>
         <div className="overflow-x-auto scrollbar-hide">

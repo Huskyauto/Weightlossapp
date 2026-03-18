@@ -186,16 +186,22 @@ a[href*="manus.im"][aria-label*="Made"] {
   pointer-events: none !important;
 }
 
-/* Target small fixed elements at bottom-right (typical badge size/position) */
-/* This catches badges that don't have identifying attributes */
+/* Target Manus badge specifically without breaking Radix UI portals */
 @media (max-width: 1024px) {
-  /* Any fixed element at bottom-right that's NOT our navigation */
-  body > *:not(#root) {
+  /* Hide Manus badge elements but NOT Radix UI portals (used by Select, Dialog, etc.) */
+  body > *:not(#root):not([data-radix-popper-content-wrapper]):not([data-radix-portal]):not([role="listbox"]):not([role="dialog"]):not(style):not(script) {
     display: none !important;
   }
   
   /* Ensure our app root is always visible */
   #root {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure Radix UI portals (Select dropdowns, dialogs, etc.) are visible */
+  [data-radix-popper-content-wrapper],
+  [data-radix-portal] {
     display: block !important;
     visibility: visible !important;
   }
