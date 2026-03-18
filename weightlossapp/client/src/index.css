@@ -121,6 +121,12 @@
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+  /* Force native appearance on select elements for mobile compatibility */
+  select {
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    appearance: menulist !important;
+  }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -185,6 +191,8 @@ a[href*="manus.im"][aria-label*="Made"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+
 
 /* Target Manus badge specifically without breaking Radix UI portals */
 @media (max-width: 1024px) {

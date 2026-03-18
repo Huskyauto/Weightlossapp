@@ -52,8 +52,8 @@ const trpcClient = trpc.createClient({
   ],
 });
 
-// Register service worker for PWA
-if ('serviceWorker' in navigator) {
+// Register service worker for PWA (only in production)
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {
@@ -62,6 +62,11 @@ if ('serviceWorker' in navigator) {
       .catch((error) => {
         console.log('SW registration failed:', error);
       });
+  });
+} else if ('serviceWorker' in navigator) {
+  // In development, unregister any existing service workers
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => registration.unregister());
   });
 }
 

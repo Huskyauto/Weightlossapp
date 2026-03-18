@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { saveUserProfile, setOnboardingComplete } from '@/lib/storage';
 import { calculateBMR, calculateTDEE, calculateDailyCalorieGoal, calculateWaterGoal } from '@/lib/insights';
 import type { UserProfile } from '@/lib/types';
-import { ArrowRight, Target, ChevronDown } from 'lucide-react';
+import { ArrowRight, Target, Check } from 'lucide-react';
 
 export default function Onboarding() {
   const [, setLocation] = useLocation();
@@ -62,6 +62,20 @@ export default function Onboarding() {
     parseFloat(formData.currentWeight) > parseFloat(formData.targetWeight);
   const isStep3Valid =
     formData.height !== '' && formData.age !== '' && parseInt(formData.age) > 0;
+
+  const genderOptions = [
+    { value: 'female', label: 'Female' },
+    { value: 'male', label: 'Male' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  const activityOptions = [
+    { value: 'sedentary', label: 'Sedentary', desc: 'Little or no exercise' },
+    { value: 'light', label: 'Light', desc: 'Exercise 1-3 days/week' },
+    { value: 'moderate', label: 'Moderate', desc: 'Exercise 3-5 days/week' },
+    { value: 'active', label: 'Active', desc: 'Exercise 6-7 days/week' },
+    { value: 'very_active', label: 'Very Active', desc: 'Intense exercise daily' },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex items-center justify-center p-4">
@@ -186,19 +200,25 @@ export default function Onboarding() {
                 />
               </div>
               <div>
-                <Label htmlFor="gender">Gender</Label>
-                <div className="relative mt-2">
-                  <select
-                    id="gender"
-                    value={formData.gender}
-                    onChange={(e) => handleInputChange('gender', e.target.value)}
-                    className="flex h-9 w-full appearance-none rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
-                  >
-                    <option value="female">Female</option>
-                    <option value="male">Male</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50 pointer-events-none" />
+                <Label>Gender</Label>
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  {genderOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleInputChange('gender', option.value)}
+                      className={`relative flex items-center justify-center px-4 py-3 rounded-lg border-2 text-sm font-medium transition-all ${
+                        formData.gender === option.value
+                          ? 'border-green-600 bg-green-50 text-green-700'
+                          : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                      }`}
+                    >
+                      {formData.gender === option.value && (
+                        <Check className="absolute top-1 right-1 h-3 w-3 text-green-600" />
+                      )}
+                      {option.label}
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="flex space-x-3">
@@ -220,21 +240,34 @@ export default function Onboarding() {
           {step === 4 && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div>
-                <Label htmlFor="activityLevel">Activity Level</Label>
-                <div className="relative mt-2">
-                  <select
-                    id="activityLevel"
-                    value={formData.activityLevel}
-                    onChange={(e) => handleInputChange('activityLevel', e.target.value)}
-                    className="flex h-9 w-full appearance-none rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
-                  >
-                    <option value="sedentary">Sedentary (little or no exercise)</option>
-                    <option value="light">Light (exercise 1-3 days/week)</option>
-                    <option value="moderate">Moderate (exercise 3-5 days/week)</option>
-                    <option value="active">Active (exercise 6-7 days/week)</option>
-                    <option value="very_active">Very Active (intense exercise daily)</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50 pointer-events-none" />
+                <Label>Activity Level</Label>
+                <div className="grid grid-cols-1 gap-2 mt-2">
+                  {activityOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleInputChange('activityLevel', option.value)}
+                      className={`relative flex flex-col items-start px-4 py-3 rounded-lg border-2 text-left transition-all ${
+                        formData.activityLevel === option.value
+                          ? 'border-green-600 bg-green-50'
+                          : 'border-gray-200 bg-white hover:border-gray-300'
+                      }`}
+                    >
+                      {formData.activityLevel === option.value && (
+                        <Check className="absolute top-2 right-2 h-4 w-4 text-green-600" />
+                      )}
+                      <span className={`text-sm font-medium ${
+                        formData.activityLevel === option.value ? 'text-green-700' : 'text-gray-700'
+                      }`}>
+                        {option.label}
+                      </span>
+                      <span className={`text-xs ${
+                        formData.activityLevel === option.value ? 'text-green-600' : 'text-gray-500'
+                      }`}>
+                        {option.desc}
+                      </span>
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
