@@ -3,18 +3,11 @@ import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { saveUserProfile, setOnboardingComplete } from '@/lib/storage';
 import { calculateBMR, calculateTDEE, calculateDailyCalorieGoal, calculateWaterGoal } from '@/lib/insights';
 import type { UserProfile } from '@/lib/types';
-import { ArrowRight, Target } from 'lucide-react';
+import { ArrowRight, Target, ChevronDown } from 'lucide-react';
 
 export default function Onboarding() {
   const [, setLocation] = useLocation();
@@ -194,19 +187,19 @@ export default function Onboarding() {
               </div>
               <div>
                 <Label htmlFor="gender">Gender</Label>
-                <Select
-                  value={formData.gender}
-                  onValueChange={(value) => handleInputChange('gender', value)}
-                >
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="relative mt-2">
+                  <select
+                    id="gender"
+                    value={formData.gender}
+                    onChange={(e) => handleInputChange('gender', e.target.value)}
+                    className="flex h-9 w-full appearance-none rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+                  >
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50 pointer-events-none" />
+                </div>
               </div>
               <div className="flex space-x-3">
                 <Button onClick={() => setStep(2)} variant="outline" className="flex-1">
@@ -227,32 +220,22 @@ export default function Onboarding() {
           {step === 4 && (
             <div className="space-y-4 animate-in fade-in duration-300">
               <div>
-                <Label>Activity Level</Label>
-                <Select
-                  value={formData.activityLevel}
-                  onValueChange={(value) => handleInputChange('activityLevel', value)}
-                >
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="sedentary">
-                      Sedentary (little or no exercise)
-                    </SelectItem>
-                    <SelectItem value="light">
-                      Light (exercise 1-3 days/week)
-                    </SelectItem>
-                    <SelectItem value="moderate">
-                      Moderate (exercise 3-5 days/week)
-                    </SelectItem>
-                    <SelectItem value="active">
-                      Active (exercise 6-7 days/week)
-                    </SelectItem>
-                    <SelectItem value="very_active">
-                      Very Active (intense exercise daily)
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="activityLevel">Activity Level</Label>
+                <div className="relative mt-2">
+                  <select
+                    id="activityLevel"
+                    value={formData.activityLevel}
+                    onChange={(e) => handleInputChange('activityLevel', e.target.value)}
+                    className="flex h-9 w-full appearance-none rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+                  >
+                    <option value="sedentary">Sedentary (little or no exercise)</option>
+                    <option value="light">Light (exercise 1-3 days/week)</option>
+                    <option value="moderate">Moderate (exercise 3-5 days/week)</option>
+                    <option value="active">Active (exercise 6-7 days/week)</option>
+                    <option value="very_active">Very Active (intense exercise daily)</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50 pointer-events-none" />
+                </div>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-sm text-green-800">
@@ -275,4 +258,3 @@ export default function Onboarding() {
     </div>
   );
 }
-
